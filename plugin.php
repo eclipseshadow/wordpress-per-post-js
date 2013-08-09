@@ -3,7 +3,7 @@
 Plugin Name: Per Post Javascript
 Plugin URI:
 Description: Allows custom Javascript code to be added to any post (CPT also supported)
-Version: 0.01a
+Version: 0.2.0
 Author: Zach Lanich
 Author URI: https://www.ZachLanich.com
 License: Undecided
