@@ -39,6 +39,8 @@ class Per_Post_JS {
 
 	public function __construct() {
 
+		$this->check_for_updates();
+
 		if ( defined('PP_JS_ENABLED_POST_TYPES') ) {
 			$this->enabled_post_types = PP_JS_ENABLED_POST_TYPES;
 		}
@@ -61,6 +63,34 @@ class Per_Post_JS {
 
 			add_action('wp_print_scripts', array( $this, '_render_post_scripts' ), 100000);
 			add_action('wp_print_footer_scripts', array( $this, '_render_post_scripts' ), 100000);
+		}
+
+	}
+
+	private function check_for_updates() {
+
+		require_once 'lib/updater.php';
+
+		define( 'WP_GITHUB_FORCE_UPDATE', true );
+
+		if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
+
+			$config = array(
+				'slug' => plugin_basename( __FILE__ ),
+				'proper_folder_name' => dirname( plugin_basename( __FILE__ ) ),
+				'api_url' => 'https://api.github.com/repos/eclipseshadow/wordpress-per-post-js',
+				'raw_url' => 'https://raw.github.com/eclipseshadow/wordpress-per-post-js/master',
+				'github_url' => 'https://github.com/eclipseshadow/wordpress-per-post-js',
+				'zip_url' => 'https://github.com/eclipseshadow/wordpress-per-post-js/archive/master.zip',
+				'sslverify' => true,
+				'requires' => '3.0',
+				'tested' => '3.6',
+				'readme' => 'README.md',
+				'access_token' => '',
+			);
+
+			new WP_GitHub_Updater( $config );
+
 		}
 
 	}
